@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="birth_year">Birth Year</label>
+                <input type="number" id="birth_year" name="birth_year" min="1900" max="{{ current_year }}" value="2000" required>
+            </div>
+            <div class="form-group">
+                <label for="birth_month">Birth Month</label>
+                <select id="birth_month" name="birth_month" required>
+                    {% for i in range(1, 13) %}
+                        <option value="{{ i }}">{{ calendar.month_name[i] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="birth_day">Birth Day</label>
+                <input type="number" id="birth_day" name="birth_day" min="1" max="31" value="1" required>
+            </div>
+            <button type="submit">Calculate Age</button>
+        </form>
+
+        {% if age_data %}
+        <div class="results">
+            <h2>You have been living for:</h2>
+            <p>Your Age: {{ age_data['years'] }} years, {{ age_data['months'] }} months, and {{ age_data['days'] }} days</p>
+            <p>Months: {{ age_data['total_months'] }} months since your birth</p>
+            <p>Days: {{ age_data['total_days'] }} days since your birth</p>
+            <p>Hours: {{ age_data['total_hours'] }} hours since your birth</p>
+            <p>Minutes: {{ age_data['total_minutes'] }} minutes since your birth</p>
+            <p>Seconds: {{ age_data['total_seconds'] }} seconds since your birth</p>
+            <p>Next Birthday: {{ age_data['days_until_birthday'] }} days left for your next birthday</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
